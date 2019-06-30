@@ -1,11 +1,3 @@
-import { resolve } from 'bluebird';
-
-//Task:
-// Create a refactored version of the following code at the bottom of this file using ES6 conventions
-// Also leave a commented section breifly outlining some of the techniques, style choice, and reasons for your refactoring choices
-// The refactored version of this code should be promise based and consider standard linting practices
-
-// DO NOT REFACTOR THIS SECTION //
 const lyrics = {
 	intro:
 		'Look\
@@ -88,34 +80,37 @@ const lyrics = {
 	refrainRepeat: 2, // number of times that refrain get repeated between choruses
 	ending: 'You can do anything you set your mind to, man',
 };
-// DO NOT REFACTOR THIS SECTION //
 
-// REFACTOR THIS CODE //
-// This code assembles the above object into a string with the lyrics for Eminem's "lose Yourself".
-// The result should look like https://www.google.ca/search?rlz=1C5CHFA_enCA764CA764&ei=4iFbWs_VG43CjwOJ465Q&q=lose+yourself+lyrics&oq=lose+yoursle&gs_l=psy-ab.3.0.0i10k1l10.6780.11717.0.12640.28.24.0.2.2.0.275.2686.4j13j2.20.0....0...1c.1.64.psy-ab..15.12.1403.0..0j0i67k1j0i131k1j0i131i67k1.234.XSGvMUvV4XY
-function momsSpagetti(lyrics) {
-	let loseYourself;
-	let internalCounter = 0;
-	loseYourself = lyrics.intro;
-
-	for (i = 0; i < lyrics.choruses.length; i++) {
-		loseYourself = loseYourself + lyrics.choruses[i].chorus;
-		if (internalCounter == 0) {
-			internalCounter++;
-			loseYourself = loseYourself + lyrics.refrain;
-		}
-		if (internalCounter == 1) {
-			internalCounter++;
-			loseYourself = loseYourself + lyrics.refrain;
-		}
-		if (internalCounter == 2) {
-			internalCounter = 0;
-		}
+const ready = true;
+const p1 = new Promise((resolve, reject) => {
+	if (ready) {
+		resolve(lyrics);
+	} else {
+		const reason = new Error('You choked man');
+		reject(reason);
 	}
+});
 
-	loseYourself = loseYourself + lyrics.ending;
-
-	return loseYourself;
-}
+momsSpagetti = lyrics => {
+	p1.then(console.log(lyrics.intro.replace(/ \ /gm, '\n')))
+		.then(console.log(lyrics.choruses[0].chorus + lyrics.refrain))
+		.then(console.log(lyrics.choruses[1].chorus + lyrics.refrain))
+		.then(console.log(lyrics.choruses[2].chorus + lyrics.refrain))
+		.then(console.log(lyrics.refrain + lyrics.ending));
+};
 console.log(momsSpagetti(lyrics));
-// REFACTORED VERSION HERE //
+
+/* 
+I'm sorry for the tardiness, I wanted to do this alone without mentor assistance. 
+I have gotten to the point where I need to call in for help to implement my idea and to
+make the code a little less smelly. 
+I've implemented the promise and gave a variable to give a reason to resolve or reject. 
+The part that I'm looking for help in is to make the output display as it does in the google lyrics link.
+I want it to go through each line and replace everywhere that has a "\" i want to insert a line break in
+it's place. one method that worked nicely was this line:
+  .replace(/ \ /gm, '\n')
+however upon implementation, it wasn't quite perfect and needed further refactoring and a second set of 
+eyes to ensure the best option gets implemented.
+
+Thank you again for your time!
+*/
